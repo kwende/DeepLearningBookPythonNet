@@ -8,8 +8,8 @@ import numpy as np
 
 np.random.seed(100)
 
-x = np.array([[0,1],[0,0],[1,1],[1,0]])
-y = np.array([[1],[0],[0],[1]])
+x = np.array([[1,0],[0,0],[0,1],[1,1]])
+y = np.array([[1],[0],[1],[0]])
 
 x = [np.reshape(a, (2, 1)) for a in x]
 y = [np.reshape(a, (1, 1)) for a in y]

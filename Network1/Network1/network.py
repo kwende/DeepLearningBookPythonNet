@@ -58,19 +58,12 @@ class Network(object):
             mini_batches = [
                 training_data[k:k+mini_batch_size]
                 for k in xrange(0, n, mini_batch_size)]
-            for mini_batch in mini_batches:
-                self.update_mini_batch(mini_batch, eta)
 
             with open("c:/users/brush/desktop/values.txt", "a") as valuesFile:
                 valuesFile.write("Epoch " + str(j) + "\n")
-                valuesFile.write("Biases:\n")
-                for layer in self.biases:
-                    valuesFile.write(str(layer))
-                    valuesFile.write("\n")
-                valuesFile.write("Weights:\n")
-                for layer in self.weights:
-                    valuesFile.write(str(layer))
-                    valuesFile.write("\n")
+
+            for mini_batch in mini_batches:
+                self.update_mini_batch(mini_batch, eta)
 
             if test_data:
                 print "Epoch {0}: {1} / {2}".format(
@@ -93,6 +86,16 @@ class Network(object):
                         for w, nw in zip(self.weights, nabla_w)]
         self.biases = [b-(eta/len(mini_batch))*nb
                        for b, nb in zip(self.biases, nabla_b)]
+
+        with open("c:/users/brush/desktop/values.txt", "a") as valuesFile:
+            valuesFile.write("Biases:\n")
+            for layer in self.biases:
+                valuesFile.write(str(layer))
+                valuesFile.write("\n")
+            valuesFile.write("Weights:\n")
+            for layer in self.weights:
+                valuesFile.write(str(layer))
+                valuesFile.write("\n")
 
     def backprop(self, x, y):
         """Return a tuple ``(nabla_b, nabla_w)`` representing the
@@ -127,6 +130,15 @@ class Network(object):
             delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
             nabla_b[-l] = delta
             nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
+
+        with open("c:/users/brush/desktop/values.txt", "a") as valuesFile:
+            valuesFile.write("Bias errors:\n")
+            for layer in nabla_b:
+                valuesFile.write(str(layer) + "\n")
+            valuesFile.write("Weight errors:\n")
+            for layer in nabla_w:
+                valuesFile.write(str(layer) + "\n")
+
         return (nabla_b, nabla_w)
 
     def evaluate(self, test_data):

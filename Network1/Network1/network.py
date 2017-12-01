@@ -60,6 +60,18 @@ class Network(object):
                 for k in xrange(0, n, mini_batch_size)]
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
+
+            with open("c:/users/brush/desktop/values.txt", "a") as valuesFile:
+                valuesFile.write("Epoch " + str(j) + "\n")
+                valuesFile.write("Biases:\n")
+                for layer in self.biases:
+                    valuesFile.write(str(layer))
+                    valuesFile.write("\n")
+                valuesFile.write("Weights:\n")
+                for layer in self.weights:
+                    valuesFile.write(str(layer))
+                    valuesFile.write("\n")
+
             if test_data:
                 print "Epoch {0}: {1} / {2}".format(
                     j, self.evaluate(test_data), n_test)
@@ -81,7 +93,6 @@ class Network(object):
                         for w, nw in zip(self.weights, nabla_w)]
         self.biases = [b-(eta/len(mini_batch))*nb
                        for b, nb in zip(self.biases, nabla_b)]
-        print('done')
 
     def backprop(self, x, y):
         """Return a tuple ``(nabla_b, nabla_w)`` representing the
